@@ -16,7 +16,18 @@ df = pd.read_csv("global_urban_smog_pm25_hourly.csv")
 df["Timestamp"] = pd.to_datetime(df["Timestamp"])
 
 # Load model
-model = joblib.load("pm25_model.pkl")
+import os
+import joblib
+from sklearn.ensemble import RandomForestRegressor
+
+MODEL_PATH = "pm25_model.pkl"
+
+if os.path.exists(MODEL_PATH):
+    model = joblib.load(MODEL_PATH)
+else:
+    model = RandomForestRegressor(n_estimators=50, random_state=42)
+    model.fit(X_train, y_train)
+    joblib.dump(model, MODEL_PATH)
 
 # Sidebar
 st.sidebar.header("Filter Options")
