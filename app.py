@@ -222,9 +222,11 @@ fig_map.update_layout(
     font=dict(color="white"),
     margin=dict(l=0, r=0, t=20, b=0),
     coloraxis_colorbar=dict(
-        title="PM2.5",
-        tickfont=dict(color="white"),
-        titlefont=dict(color="white")
+        title=dict(
+            text="PM2.5",
+            font=dict(color="white")
+        ),
+        tickfont=dict(color="white")
     )
 )
 
