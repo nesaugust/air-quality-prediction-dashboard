@@ -381,22 +381,10 @@ with left_col:
         template="plotly_dark"
     )
 
-    fig_map = style_fig(fig_map, height=560)
+    fig_trend = style_fig(fig_trend, height=460)
+    fig_trend.update_traces(line=dict(width=2.5))
 
-    fig_map.update_geos(
-        showland=True,
-        landcolor="#102A43",
-        showocean=True,
-        oceancolor="#020617",
-        showcountries=True,
-        countrycolor="rgba(148,163,184,0.35)",
-        showcoastlines=True,
-        coastlinecolor="rgba(125,211,252,0.35)",
-        bgcolor="rgba(0,0,0,0)"
-    )
-
-    fig_bar = style_fig(fig_bar, height=460)
-    fig_bar.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+    st.plotly_chart(fig_trend, use_container_width=True)
 
 with right_col:
     st.subheader("Top 10 Most Polluted Cities")
@@ -409,21 +397,9 @@ with right_col:
         .reset_index()
     )
 
-    fig_bar = px.bar(
-        top_cities,
-        x="PM2_5_ug_m3",
-        y="City",
-        orientation="h",
-        text="PM2_5_ug_m3",
-        template="plotly_dark",
-        color="PM2_5_ug_m3",
-        color_continuous_scale="Blues"
-    )
+    fig_bar = style_fig(fig_bar, height=460)
 
     fig_bar.update_layout(
-        paper_bgcolor="#061A33",
-        plot_bgcolor="#061A33",
-        font=dict(color="white"),
         yaxis=dict(autorange="reversed"),
         xaxis_title="Average PM2.5",
         yaxis_title="City",
@@ -431,7 +407,10 @@ with right_col:
         coloraxis_showscale=False
     )
 
-    fig_bar.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+    fig_bar.update_traces(
+        texttemplate="%{text:.2f}",
+        textposition="outside"
+    )
 
     st.plotly_chart(fig_bar, use_container_width=True)
 
