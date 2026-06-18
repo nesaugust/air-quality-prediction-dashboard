@@ -45,6 +45,34 @@ section[data-testid="stSidebar"] * {
     color: #E5E7EB !important;
 }
 
+/* Make selectbox text visible */
+section[data-testid="stSidebar"] div[data-baseweb="select"] span {
+    color: #0F172A !important;
+}
+
+section[data-testid="stSidebar"] div[data-baseweb="select"] input {
+    color: #0F172A !important;
+}
+
+section[data-testid="stSidebar"] div[data-baseweb="select"] svg {
+    color: #0F172A !important;
+}
+
+/* Date input text */
+section[data-testid="stSidebar"] input {
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
+}
+
+/* Sidebar labels stay white */
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 {
+    color: #F8FAFC !important;
+}
+
 section[data-testid="stSidebar"] h1,
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3,
@@ -61,7 +89,22 @@ section[data-testid="stSidebar"] .stMarkdown {
 section[data-testid="stSidebar"] hr {
     border-color: rgba(148,163,184,0.18);
 }
+/* Selectbox text inside sidebar */
+section[data-testid="stSidebar"] div[data-baseweb="select"] * {
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
+}
 
+/* Date input text inside sidebar */
+section[data-testid="stSidebar"] input {
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
+}
+
+/* Dropdown arrow */
+section[data-testid="stSidebar"] svg {
+    color: #0F172A !important;
+}
 /* SELECTBOX + DATE INPUT */
 div[data-baseweb="select"] > div,
 input {
@@ -372,17 +415,38 @@ left_col, right_col = st.columns([1.2, 1])
 with left_col:
     st.subheader("PM2.5 Trend Over Time")
 
-    fig_trend = px.line(
-        filtered_df,
-        x="Timestamp",
-        y="PM2_5_ug_m3",
-        color="City" if selected_city == "All Cities" else None,
-        title="PM2.5 Trend",
-        template="plotly_dark"
-    )
+    if selected_city == "All Cities":
+        trend_df = (
+            filtered_df
+            .set_index("Timestamp")
+            .resample("D")["PM2_5_ug_m3"]
+            .mean()
+            .reset_index()
+        )
+
+        fig_trend = px.line(
+            trend_df,
+            x="Timestamp",
+            y="PM2_5_ug_m3",
+            title="Daily Average PM2.5 Trend",
+            template="plotly_dark"
+        )
+
+    else:
+        trend_df = filtered_df.sort_values("Timestamp")
+
+        fig_trend = px.line(
+            trend_df,
+            x="Timestamp",
+            y="PM2_5_ug_m3",
+            title=f"PM2.5 Trend — {selected_city}",
+            template="plotly_dark"
+        )
 
     fig_trend = style_fig(fig_trend, height=460)
-    fig_trend.update_traces(line=dict(width=2.5))
+    fig_trend.update_traces(
+        line=dict(width=3, color="#38BDF8")
+    )
 
     st.plotly_chart(fig_trend, use_container_width=True)
 
@@ -390,26 +454,37 @@ with right_col:
     st.subheader("Top 10 Most Polluted Cities")
 
     top_cities = (
-        df.groupby("City")["PM2_5_ug_m3"]
+        filtered_df.groupby("City")["PM2_5_ug_m3"]
         .mean()
         .sort_values(ascending=False)
         .head(10)
         .reset_index()
+        .sort_values("PM2_5_ug_m3", ascending=True)
+    )
+
+    fig_bar = px.bar(
+        top_cities,
+        x="PM2_5_ug_m3",
+        y="City",
+        orientation="h",
+        text="PM2_5_ug_m3",
+        color_discrete_sequence=["#38BDF8"],
+        title="Average PM2.5 by City",
+        template="plotly_dark"
     )
 
     fig_bar = style_fig(fig_bar, height=460)
 
     fig_bar.update_layout(
-        yaxis=dict(autorange="reversed"),
-        xaxis_title="Average PM2.5",
-        yaxis_title="City",
         showlegend=False,
-        coloraxis_showscale=False
+        xaxis_title="Average PM2.5",
+        yaxis_title="",
     )
 
     fig_bar.update_traces(
-        texttemplate="%{text:.2f}",
-        textposition="outside"
+        texttemplate="%{text:.1f}",
+        textposition="outside",
+        marker_line_width=0
     )
 
     st.plotly_chart(fig_bar, use_container_width=True)
