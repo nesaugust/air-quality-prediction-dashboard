@@ -11,79 +11,163 @@ st.set_page_config(
 )
 
 # ======================
-# CSS DESIGN
+# PROFESSIONAL UI DESIGN
 # ======================
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
 .stApp {
-    background: linear-gradient(135deg, #061A33 0%, #082B57 45%, #03101F 100%);
-    color: #EAF6FF;
+    background:
+        radial-gradient(circle at 20% 5%, rgba(14,165,233,0.16), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(34,197,94,0.08), transparent 26%),
+        linear-gradient(135deg, #020617 0%, #071827 48%, #0A1020 100%);
+    color: #F8FAFC;
 }
 
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #082B57 0%, #031A35 100%);
-    border-right: 1px solid rgba(255,255,255,0.12);
+.block-container {
+    padding-top: 2.2rem;
+    padding-bottom: 4rem;
+    max-width: 1320px;
 }
 
+/* SIDEBAR */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #03101F 0%, #061A33 55%, #020617 100%);
+    border-right: 1px solid rgba(148,163,184,0.18);
+}
+
+section[data-testid="stSidebar"] * {
+    color: #E5E7EB !important;
+}
+
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] label {
+    color: #E5E7EB !important;
+}
+
+section[data-testid="stSidebar"] .stMarkdown {
+    color: #E5E7EB !important;
+}
+
+section[data-testid="stSidebar"] hr {
+    border-color: rgba(148,163,184,0.18);
+}
+
+/* SELECTBOX + DATE INPUT */
+div[data-baseweb="select"] > div,
+input {
+    background-color: #F8FAFC !important;
+    color: #0F172A !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(148,163,184,0.35) !important;
+}
+
+/* HEADER */
 .main-title {
-    font-size: 38px;
+    font-size: 42px;
     font-weight: 800;
     color: #FFFFFF;
-    margin-bottom: 5px;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
 }
 
 .subtitle {
-    color: #BFDFFF;
+    color: #BAE6FD;
     font-size: 16px;
-    margin-bottom: 25px;
+    margin-bottom: 28px;
 }
 
-.card {
-    background: rgba(13, 52, 96, 0.75);
-    border: 1px solid rgba(95, 180, 255, 0.25);
-    padding: 22px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-}
-
+/* KPI CARDS */
 [data-testid="stMetric"] {
-    background: linear-gradient(135deg, #0B3D91, #0077FF);
-    padding: 22px;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0,119,255,0.28);
-}
-
-[data-testid="stMetricValue"] {
-    color: white !important;
-    font-size: 30px !important;
-    font-weight: 800 !important;
+    background: linear-gradient(145deg, rgba(15,23,42,0.96), rgba(14,116,144,0.42));
+    border: 1px solid rgba(125,211,252,0.22);
+    padding: 24px;
+    border-radius: 22px;
+    box-shadow: 0 18px 42px rgba(0,0,0,0.26);
 }
 
 [data-testid="stMetricLabel"] {
-    color: #D9ECFF !important;
+    color: #BAE6FD !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stMetricValue"] {
+    color: #FFFFFF !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+}
+
+/* CONTENT CARD */
+.card {
+    background: linear-gradient(145deg, rgba(15,23,42,0.94), rgba(17,24,39,0.88));
+    border: 1px solid rgba(148,163,184,0.16);
+    padding: 24px;
+    border-radius: 22px;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.26);
 }
 
 h1, h2, h3 {
-    color: #FFFFFF;
+    color: #F8FAFC !important;
+    font-weight: 800 !important;
 }
 
+p, span, label {
+    color: #CBD5E1 !important;
+}
+
+/* BUTTON */
 .stButton > button {
-    background: linear-gradient(90deg, #00A6FB, #3949FF);
-    color: white;
+    background: linear-gradient(135deg, #0284C7, #2563EB);
+    color: white !important;
     border: none;
     border-radius: 14px;
     padding: 12px 28px;
-    font-weight: 700;
+    font-weight: 800;
     width: 100%;
+    box-shadow: 0 12px 28px rgba(37,99,235,0.28);
 }
 
 .stButton > button:hover {
-    background: linear-gradient(90deg, #0077FF, #1A35FF);
-    color: white;
+    background: linear-gradient(135deg, #0369A1, #1D4ED8);
 }
 
+/* CHART CARD */
+.js-plotly-plot {
+    background: linear-gradient(145deg, rgba(15,23,42,0.94), rgba(8,47,73,0.72)) !important;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(125,211,252,0.14);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.26);
+}
+
+/* DIVIDER */
 hr {
-    border: 1px solid rgba(255,255,255,0.12);
+    border: none;
+    border-top: 1px solid rgba(148,163,184,0.16);
+    margin: 2rem 0;
+}
+
+/* INFO BOX */
+div[data-testid="stAlert"] {
+    background: rgba(14,116,144,0.16);
+    border: 1px solid rgba(125,211,252,0.20);
+    border-radius: 16px;
+    color: #E0F2FE !important;
+}
+
+/* FOOTER */
+.footer-text {
+    color: #BAE6FD;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -110,6 +194,54 @@ def load_model():
 df = load_data()
 model = load_model()
 
+def style_fig(fig, height=480):
+    fig.update_layout(
+        template="plotly_dark",
+        height=height,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(2,6,23,0.18)",
+        font=dict(
+            family="Inter, Arial",
+            size=13,
+            color="#CBD5E1"
+        ),
+        title=dict(
+            font=dict(size=20, color="#F8FAFC"),
+            x=0.02,
+            xanchor="left"
+        ),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.03,
+            xanchor="left",
+            x=0,
+            font=dict(color="#CBD5E1")
+        ),
+        margin=dict(l=32, r=24, t=64, b=40),
+        hovermode="x unified",
+    )
+
+    fig.update_xaxes(
+        showgrid=False,
+        zeroline=False,
+        showline=True,
+        linecolor="rgba(148,163,184,0.18)",
+        tickfont=dict(color="#94A3B8"),
+        title_font=dict(color="#94A3B8")
+    )
+
+    fig.update_yaxes(
+        showgrid=True,
+        gridcolor="rgba(148,163,184,0.10)",
+        zeroline=False,
+        showline=False,
+        tickfont=dict(color="#94A3B8"),
+        title_font=dict(color="#94A3B8")
+    )
+
+    return fig
+    
 # ======================
 # SIDEBAR
 # ======================
@@ -249,17 +381,22 @@ with left_col:
         template="plotly_dark"
     )
 
-    fig_trend.update_layout(
-        paper_bgcolor="#061A33",
-        plot_bgcolor="#061A33",
-        font=dict(color="white"),
-        title_font=dict(color="#FFFFFF", size=20),
-        hovermode="x unified"
+    fig_map = style_fig(fig_map, height=560)
+
+    fig_map.update_geos(
+        showland=True,
+        landcolor="#102A43",
+        showocean=True,
+        oceancolor="#020617",
+        showcountries=True,
+        countrycolor="rgba(148,163,184,0.35)",
+        showcoastlines=True,
+        coastlinecolor="rgba(125,211,252,0.35)",
+        bgcolor="rgba(0,0,0,0)"
     )
 
-    fig_trend.update_traces(line=dict(width=2))
-
-    st.plotly_chart(fig_trend, use_container_width=True)
+    fig_bar = style_fig(fig_bar, height=460)
+    fig_bar.update_traces(texttemplate="%{text:.2f}", textposition="outside")
 
 with right_col:
     st.subheader("Top 10 Most Polluted Cities")
